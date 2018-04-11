@@ -1,29 +1,74 @@
 <!DOCTYPE html>
 <html>
-<head>
-<h1> Find a Chord Progression</h1>
 
-<script src="bundle.js"></script>
-<script src="C:\Users\Sophia\Documents\Final project\Final-Project\jq\jquery-3.3.1.min.js"></script>
+    <head>
+        <h1> Find a Chord Progression</h1>
+        <script scr="C:\Users\Sophia\Documents\Final project\Final-Project\index.js"></script>
+        <script src="C:\Users\Sophia\Documents\Final project\Final-Project\jq\jquery-3.3.1.min.js"></script>
+        
+    </head>
+        <body bgcolor="lavender"></body>
+            <form id="myForm">            
+            Enter the key of your melody: <input name="inputbox" type="text">
+            </form>
+            <button onclick="getInput()">Submit</button>
 
-<form id="myForm" 
-    <p>Enter the key of your melody:</p>
-    <input type="text" name="notes">
-    <input type="submit" value="Submit">
-</form>
-<body bgcolor="#E6E6FA">
-
-</form>
-</head>
+    <div id="demo"></div>
 
 <script>
-  document.getElementById("myForm").addEventListener("submit", chords);
-  
-  function chords() {
-      alert("function working")
-  };
+    function getInput() {
+        var x= document.getElementById("myForm");
+        var y= x.elements["inputbox"].value;
+        alert (y+ "worked")
 
 
+
+     	$(document).ready(function () {
+	    $.getJSON('http://localhost:3000/chords', function (data) {
+            
+        if ( y === "c") { 
+            document.write("In the key of C, your suggested chords are : " + 
+            "   Major:   " +    (data[0].major) + "    or    " + 
+            "   Minor   " +    (data[0].minor));
+        } 
+        if ( y === "d") { 
+            document.write("In the key of D, your suggested chords are : " + 
+            "   Major:   " +    (data[1].major) + "    or    " + 
+            "   Minor   " +    (data[1].minor));
+        }
+        if ( y === "e") { 
+            document.write("In the key of E, your suggested chords are : " + 
+            "   Major:   " +    (data[2].major) + "    or    " + 
+            "   Minor   " +    (data[2].minor));
+        }
+        if ( y === "f") { 
+            document.write("In the key of F, your suggested chords are : " + 
+            "   Major:   " +    (data[3].major) + "    or    " + 
+            "   Minor   " +    (data[3].minor));
+        }
+        if ( y === "g") { 
+            document.write("In the key of G, your suggested chords are : " + 
+            "   Major:   " +    (data[4].major) + "    or    " + 
+            "   Minor   " +    (data[4].minor));
+        }
+        if ( y === "a") { 
+            document.write("In the key of A, your suggested chords are : " + 
+            "   Major:   " +    (data[5].major) + "    or    " + 
+            "   Minor   " +    (data[5].minor));
+        }
+        if ( y === "b") { 
+            document.write("In the key of C, your suggested chords are : " + 
+            "   Major:   " +    (data[6].major) + "    or    " + 
+            "   Minor   " +    (data[6].minor));
+        }
+        ;
+    });    
+})   
+
+}
+
+              
+                
 </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 
+
 var express = require('express');
 
 var app = express();
@@ -7,8 +8,9 @@ var browserify = require('browserify');
 
 var jquery = require('jquery');
 
-
 var Pool = require('pg-pool');
+
+
 //var Pool = require('pg').Pool;
 
 
@@ -21,6 +23,7 @@ var config = {
 };
 
 var pool = new Pool(config);
+
 
 
 async function getChords() {
