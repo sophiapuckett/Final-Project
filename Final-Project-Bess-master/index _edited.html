@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1">
+
+		<title>Final-Project-Bess</title>
+
+		<script src="libraries/p5.js"></script>
+		<script src="libraries/p5.dom.js"></script>
+		<script src="libraries/p5.sound.js"></script>
+		<script src="sketch.js?v=2"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+		<style>
+			body {
+				margin: 5px;
+				padding: 5px;
+				overflow: hidden;
+			}
+			#canvas_containers {
+				margin-left: 10px;
+				margin-top: 10px;
+			}
+
+			body {
+    			background-color: rgb(178, 248, 236);
+}
+			div.a {
+    			text-align: center;
+}
+		
+		</style>
+	</head>
+	<body>
+		<div class="a">
+		<h1>Select Artist & Track</h1>
+		<form>
+			<select id="select_a" onchange="artistSelect()">
+				<option selected disabled> -- </option>
+				<option value="Elyangel">Elyangel</option>
+				<option value="Someone Else">Someone Else</option>
+			</select>
+			<select id="select_t" onchange="$('body').append(script_1); s = trackList.selectedIndex; selTrack = trackList.options[s].text; display()">
+				<option selected disabled> -- </option>
+			</select>
+		</form>
+		
+		<h3 id="artistProfile">Artist Profile - <i id="artist"></i></h3>
+		<div id="canvas_containers">
+			<div id="song_viz">
+				<h4> <div id="meta_1" style="float:center">  </div> </h4>
+				<div id="controls_1"></div>
+			</div><br>
+		<p id="loading">Please Wait While Audio Loads...</p>
+		<div id="refresh"><small><i>REFRESH THE PAGE TO PICK A NEW SONG</i></small></div>
+	</div>
+	</body>
+	<script>
+		let loadingP = document.getElementById("loading");
+		let refreshDiv = document.getElementById("refresh");
+		refreshDiv.style.display = "none";
+		loadingP.style.display = "none";
+		let artistsAndTracks = {};
+		artistsAndTracks['Elyangel'] = ['My Darling', 'Love For You'];
+		artistsAndTracks['Someone Else'] = ['Clementine'];
+		let artistProfile = document.getElementById("artistProfile");
+		artistProfile.style.display = "none";
+		let trackList = document.getElementById("select_t");
+		let s;
+		let selTrack;
+		let script_1;
+
+		function artistSelect() {
+			// Displays the list of tracks for each artist, adds the artist name to the artist profile header, and adds the iTunes Search API script
+			let artistList = document.getElementById("select_a");
+			let x = artistList.selectedIndex;
+			let selArtist = artistList.options[x].value;
+			let artists = artistsAndTracks[selArtist];
+			if (artists) {
+				for (let i = 0; i < artists.length; i++) {
+					let artist = new Option(artists[i], i);
+					trackList.options.add(artist);
+				}
+			}
+			artistProfile.style.display = "block";
+			document.getElementById("artist").innerHTML = artistList.options[x].text;
+			script_1 = $("<script />", {
+				src: "https://itunes.apple.com/search?callback=itunesResults&format=json&entity=song&term=" + artistList.options[x].text
+				}
+			);
+		};
+	
+		function display() {
+			// Getting metadata for "Someone Else - Clementine"
+			$.get("https://patrickmcneill.com/itp/bess-media/audio.json", function (data) {
+				if (selTrack === "Clementine") {
+					let txt = "";
+					txt += data[2].title;
+					document.getElementById("meta_1").innerHTML = "Song : " + txt;
+				}
+			}, "json");
+
+			refreshDiv.style.display = "block";
+
+			// Displaying the visualizers for each song
+			if (selTrack === "Love For You") {
+				new p5(viz_1, 'song_viz');
+			} else if (selTrack === "My Darling") {
+				new p5(viz_2, 'song_viz');
+			} else if (selTrack === "Clementine") {
+				new p5(viz_3, 'song_viz');
+			}
+		};
+
+		function itunesResults(json) {
+			//Getting the metadata for "My Darling" and "Love For You" from the iTunes Search API
+		  let txt_1 = "";
+		  let txt_2 = "";
+		  txt_1 += json.results[0].trackName;
+		  txt_2 += json.results[4].trackName;
+		  if (selTrack === "My Darling") {
+		  	document.getElementById("meta_1").innerHTML = "Song : " + txt_1;
+			} else if (selTrack === "Love For You") {
+			  document.getElementById("meta_1").innerHTML = "Song : " + txt_2;
+			}
+		}
+
+	</script>
+</html>
