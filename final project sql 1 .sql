@@ -1,5 +1,5 @@
 
-create table melodies (
+create table chords (
     id               serial primary key,
     key              varchar(100) 
     major            varchar(100)
