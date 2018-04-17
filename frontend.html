@@ -2,72 +2,64 @@
 <html>
 
     <head>
-        <h1> Find a Chord Progression</h1>
-        <script scr="C:\Users\Sophia\Documents\Final project\Final-Project\index.js"></script>
+        <h1> Find a Chord Progression</h1>    
         <script src="C:\Users\Sophia\Documents\Final project\Final-Project\jq\jquery-3.3.1.min.js"></script>
         
-    </head>
+
+  
         <body bgcolor="lavender"></body>
-            <form id="myForm">            
-            Enter the key of your melody: <input name="inputbox" type="text">
+           
+            Enter the key of your melody: <select id="selection"> 
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+              </select>
+    
+           
+        
+              <button id = "minor" onclick="minFunction()">Minor</button>
+              <button id = "major" onclick="majFunction()">Major</button>
             </form>
-            <button onclick="getInput()">Submit</button>
-
     <div id="demo"></div>
-
+</head>
+<body>
 <script>
-    function getInput() {
-        var x= document.getElementById("myForm");
-        var y= x.elements["inputbox"].value;
+function majFunction() {
+var s2 = document.getElementById('selection').value;  
+    document.write("In the key of    " + s2 + "    your suggested chords are : ")
+        $.getJSON('http://localhost:3013/major/:key', function my_data (data) {
+    for (var i=0; i< data.length; i++) {
+    if (data[i].key == s2) {  
+        console.log(data[i].key)
+        document.write(data[i].major); 
+
+    }}});
+
+    };
+
+
+
+function minFunction() {
+var s2 = document.getElementById('selection').value;  
+    document.write("In the key of    " + s2 + "    your suggested chords are : ")
+        $.getJSON('http://localhost:3018/minor/:key', function my_data_2 (data) {
+    for (var i=0; i< data.length; i++) {
+    if (data[i].key == s2) {  
+        console.log(data[i].key)
+        document.write(data[i].minor); 
+
+    }}});
+
+    };
+
+
+
+
  
-
-
-
-     	$(document).ready(function () {
-	    $.getJSON('http://localhost:3000/chords', function (data) {
-            
-        if ( y === "c") { 
-            document.write("In the key of C, your suggested chords are : " + 
-            "   Major:   " +    (data[0].major) + "    or    " + 
-            "   Minor   " +    (data[0].minor));
-        } 
-        if ( y === "d") { 
-            document.write("In the key of D, your suggested chords are : " + 
-            "   Major:   " +    (data[1].major) + "    or    " + 
-            "   Minor   " +    (data[1].minor));
-        }
-        if ( y === "e") { 
-            document.write("In the key of E, your suggested chords are : " + 
-            "   Major:   " +    (data[2].major) + "    or    " + 
-            "   Minor   " +    (data[2].minor));
-        }
-        if ( y === "f") { 
-            document.write("In the key of F, your suggested chords are : " + 
-            "   Major:   " +    (data[3].major) + "    or    " + 
-            "   Minor   " +    (data[3].minor));
-        }
-        if ( y === "g") { 
-            document.write("In the key of G, your suggested chords are : " + 
-            "   Major:   " +    (data[4].major) + "    or    " + 
-            "   Minor   " +    (data[4].minor));
-        }
-        if ( y === "a") { 
-            document.write("In the key of A, your suggested chords are : " + 
-            "   Major:   " +    (data[5].major) + "    or    " + 
-            "   Minor   " +    (data[5].minor));
-        }
-        if ( y === "b") { 
-            document.write("In the key of C, your suggested chords are : " + 
-            "   Major:   " +    (data[6].major) + "    or    " + 
-            "   Minor   " +    (data[6].minor));
-        }
-        ;
-    });    
-})   
-
-}
-
-              
                 
 </script>
 </body>
